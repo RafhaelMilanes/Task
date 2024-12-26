@@ -14,7 +14,7 @@ const Sidebar = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-2 p-2 text-base">
+        <div className="flex flex-col gap-2 p-2 text-xs">
           <SidebarButton>
             {" "}
             <HomeIcon />
