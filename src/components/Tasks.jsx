@@ -15,6 +15,34 @@ const Tasks = () => {
   const morningTasks = tasks.filter((tasks) => tasks.time === "morning");
   const afternoonTasks = tasks.filter((tasks) => tasks.time === "afternoon");
   const eveningTasks = tasks.filter((tasks) => tasks.time === "evening");
+
+  const handleDeleteClick = (taskId) => {
+    const newTasks = tasks.filter((task) => task.id != taskId);
+    setTasks(newTasks);
+  };
+
+  const handleCheckboxClick = (taskId) => {
+    console.log("Clicou!");
+    let newTasks = tasks.map((task) => {
+      if (task.id != taskId) {
+        return task;
+      }
+
+      // essa trafefa vai ser atualizada
+      if (task.status === "not_started") {
+        return { ...task, status: "in_progress" };
+      }
+      if (task.status === "in_progress") {
+        return { ...task, status: "done" };
+      }
+      if (task.status === "done") {
+        return { ...task, status: "not_started" };
+      }
+      return { ...task, status: "done" };
+    });
+    setTasks(newTasks);
+  };
+
   return (
     <>
       <div className="w-full px-8 py-16">
@@ -46,7 +74,14 @@ const Tasks = () => {
                 <SunIcon /> Manhã
               </TasksSeparator>
               {morningTasks.map((item) => (
-                <Item key={item.id} title={item.title} status={item.status} />
+                <Item
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  status={item.status}
+                  handleCheckboxClick={handleCheckboxClick}
+                  handleDeleteClick={handleDeleteClick}
+                />
               ))}
             </div>
 
@@ -56,7 +91,14 @@ const Tasks = () => {
                   <CloudSunIcon /> Tarde
                 </TasksSeparator>
                 {afternoonTasks.map((item) => (
-                  <Item key={item.id} title={item.title} status={item.status} />
+                  <Item
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    status={item.status}
+                    handleCheckboxClick={handleCheckboxClick}
+                    handleDeleteClick={handleDeleteClick}
+                  />
                 ))}
               </div>
             </div>
@@ -66,7 +108,14 @@ const Tasks = () => {
                 <MoonIcon /> Noite
               </TasksSeparator>
               {eveningTasks.map((item) => (
-                <Item key={item.id} title={item.title} status={item.status} />
+                <Item
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  status={item.status}
+                  handleCheckboxClick={handleCheckboxClick}
+                  handleDeleteClick={handleDeleteClick}
+                />
               ))}
             </div>
           </div>

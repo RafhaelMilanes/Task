@@ -1,8 +1,16 @@
 import CheckItem from "../assets/icons/check.svg?react";
 import LoadCircle from "../assets/icons/loader-circle.svg?react";
 import Details from "../assets/icons/details.svg?react";
+import TrashIcon from "../assets/icons/trash.svg?react";
+import Button from "./Button";
 
-const Item = ({ title, status, onStatusChange }) => {
+const Item = ({
+  title,
+  status,
+  handleDeleteClick,
+  handleCheckboxClick,
+  id,
+}) => {
   const getStatusClasses = () => {
     if (status === "done") {
       return "bg-[#00acb428] text-[#002C2E]";
@@ -17,7 +25,7 @@ const Item = ({ title, status, onStatusChange }) => {
 
   return (
     <div
-      className={`flex items-center justify-between gap-2 rounded-lg px-4 py-3 ${statusClasses}`}
+      className={`flex items-center justify-between gap-2 rounded-lg px-4 py-3 transition ease-in-out ${statusClasses}`}
     >
       <div className="flex items-center gap-2">
         <label
@@ -26,17 +34,22 @@ const Item = ({ title, status, onStatusChange }) => {
           <input
             type="checkbox"
             checked={status === "done"}
-            onChange={(e) => onStatusChange && onStatusChange(e.target.checked)}
             className="absolute h-full w-full cursor-pointer opacity-0"
+            onChange={() => handleCheckboxClick(id)}
           />
           {status === "done" && <CheckItem />}
           {status === "in_progress" && <LoadCircle className="animate-spin" />}
         </label>
         {title}
       </div>
-      <a href="#" className="transition-opacity hover:opacity-75">
-        <Details />
-      </a>
+      <div className="flex items-center justify-center gap-2">
+        <Button variant="" onClick={() => handleDeleteClick(id)}>
+          <TrashIcon />
+        </Button>
+        <a href="#" className="transition-opacity hover:opacity-75">
+          <Details />
+        </a>
+      </div>
     </div>
   );
 };
