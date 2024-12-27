@@ -5,7 +5,16 @@ import SunIcon from "../assets/icons/sun.svg?react";
 import CloudSunIcon from "../assets/icons/cloud-sun.svg?react";
 import MoonIcon from "../assets/icons/moon.svg?react";
 import TasksSeparator from "./TasksSeparator";
+import { useState } from "react";
+import TASKS from "../data/tasks";
+import Item from "./Item";
+
 const Tasks = () => {
+  const [tasks, setTasks] = useState(TASKS);
+
+  const morningTasks = tasks.filter((tasks) => tasks.time === "morning");
+  const afternoonTasks = tasks.filter((tasks) => tasks.time === "afternoon");
+  const eveningTasks = tasks.filter((tasks) => tasks.time === "evening");
   return (
     <>
       <div className="w-full px-8 py-16">
@@ -32,20 +41,34 @@ const Tasks = () => {
 
         <div className="rounded-xl bg-white p-6">
           <div className="flex flex-col">
-            <TasksSeparator>
-              <SunIcon /> Manhã
-            </TasksSeparator>
-
-            <div className="my-6 space-y-3">
-              {" "}
+            <div className="space-y-3">
               <TasksSeparator>
-                <CloudSunIcon /> Tarde
+                <SunIcon /> Manhã
               </TasksSeparator>
+              {morningTasks.map((item) => (
+                <Item key={item.id} title={item.title} status={item.status} />
+              ))}
             </div>
 
-            <TasksSeparator>
-              <MoonIcon /> Noite
-            </TasksSeparator>
+            <div>
+              <div className="my-6 space-y-3">
+                <TasksSeparator>
+                  <CloudSunIcon /> Tarde
+                </TasksSeparator>
+                {afternoonTasks.map((item) => (
+                  <Item key={item.id} title={item.title} status={item.status} />
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <TasksSeparator>
+                <MoonIcon /> Noite
+              </TasksSeparator>
+              {eveningTasks.map((item) => (
+                <Item key={item.id} title={item.title} status={item.status} />
+              ))}
+            </div>
           </div>
         </div>
       </div>
