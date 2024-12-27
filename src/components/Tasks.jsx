@@ -8,6 +8,7 @@ import TasksSeparator from "./TasksSeparator";
 import { useState } from "react";
 import TASKS from "../data/tasks";
 import Item from "./Item";
+import { toast, Toaster } from "sonner";
 
 const Tasks = () => {
   const [tasks, setTasks] = useState(TASKS);
@@ -16,9 +17,10 @@ const Tasks = () => {
   const afternoonTasks = tasks.filter((tasks) => tasks.time === "afternoon");
   const eveningTasks = tasks.filter((tasks) => tasks.time === "evening");
 
-  const handleDeleteClick = (taskId) => {
+  const handleDeleteClick = (taskId, morningTasks) => {
     const newTasks = tasks.filter((task) => task.id != taskId);
     setTasks(newTasks);
+    toast.error(`Tarefa removida com sucesso!`);
   };
 
   const handleCheckboxClick = (taskId) => {
@@ -30,12 +32,15 @@ const Tasks = () => {
 
       // essa trafefa vai ser atualizada
       if (task.status === "not_started") {
+        toast.warning("Tarefa iniciada com sucesso!");
         return { ...task, status: "in_progress" };
       }
       if (task.status === "in_progress") {
+        toast.success("Tarefa concluida com sucesso!");
         return { ...task, status: "done" };
       }
       if (task.status === "done") {
+        toast("Tarefa reiniciada!");
         return { ...task, status: "not_started" };
       }
       return { ...task, status: "done" };
