@@ -1,12 +1,9 @@
+import IntupLabel from "./InputLabel";
+
 const Input = ({ label, ...rest }) => {
   return (
     <div className="flex flex-col text-left">
-      <label
-        className="mb-1 text-sm font-semibold text-[#35383E]"
-        htmlFor={rest.id}
-      >
-        {label}
-      </label>
+      <IntupLabel></IntupLabel>
       <input
         {...rest}
         type="text"
