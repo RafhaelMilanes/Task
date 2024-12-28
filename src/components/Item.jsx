@@ -44,10 +44,10 @@ const Item = ({
       </div>
       <div className="flex items-center justify-center gap-2">
         <button variant="" onClick={() => handleDeleteClick(id)}>
-          <TrashIcon className="text-[#9A9C9F] hover:opacity-75" />
+          <TrashIcon className="text-brand-text-gray hover:opacity-75" />
         </button>
         <a href="#" className="transition-opacity hover:opacity-75">
-          <Details className="text-[#9A9C9F]" />
+          <Details className="text-brand-text-gray" />
         </a>
       </div>
     </div>

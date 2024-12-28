@@ -7,10 +7,12 @@ const Sidebar = () => {
     <>
       <div className="h-screen w-64 bg-white text-xl">
         <div className="px-8 py-6">
-          <h1 className="mb-4 font-semibold text-[#00ADB5]">Task Manager</h1>
+          <h1 className="text-brand-primary mb-4 font-semibold">
+            Task Manager
+          </h1>
           <p className="max-w-96 text-xs">
             Um simples
-            <span className="text-[#00ADB5]"> organizador de tarefas</span>.
+            <span className="text-brand-primary"> organizador de tarefas</span>.
           </p>
         </div>
 

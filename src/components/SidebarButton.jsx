@@ -9,8 +9,8 @@ const SidebarButton = ({ children }) => {
 
   const getVarientClasses = () => {
     return isSelected === true
-      ? "bg-[#E6F7F8] text-[#00ADB5]"
-      : "text-[#35383E]";
+      ? "bg-brand-primary bg-opacity-15 text-brand-primary"
+      : "text-dark-blue";
   };
 
   return (

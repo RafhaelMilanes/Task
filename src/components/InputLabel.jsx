@@ -1,6 +1,9 @@
 const IntupLabel = (props) => {
   return (
-    <label className="mb-1 text-sm font-semibold text-[#35383E]" {...props}>
+    <label
+      className="text-brand-dark-blue mb-1 text-sm font-semibold"
+      {...props}
+    >
       {props.children}
     </label>
   );
