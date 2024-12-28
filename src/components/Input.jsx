@@ -3,7 +3,7 @@ import IntupLabel from "./InputLabel";
 const Input = ({ label, ...rest }) => {
   return (
     <div className="flex flex-col text-left">
-      <IntupLabel></IntupLabel>
+      <IntupLabel htmlfor={rest.id}>{label}</IntupLabel>
       <input
         {...rest}
         type="text"
