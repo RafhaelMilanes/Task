@@ -12,6 +12,7 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
   const [title, setTitle] = useState();
   const [time, setTime] = useState("morning");
   const [description, setDescription] = useState();
+  const [error, setError] = useState([]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -22,6 +23,34 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
   const nodeRef = useRef();
 
   const handleSaveClick = () => {
+    const newError = [];
+
+    if (!title.trim()) {
+      newError.push({
+        inputName: "title",
+        message: "O título é obrigatório",
+      });
+    }
+
+    if (!time.trim()) {
+      newError.push({
+        inputName: "time",
+        message: "Esté campo é obrigatorio",
+      });
+    }
+
+    if (!description.trim()) {
+      newError.push({
+        inputName: "description",
+        message: "A descrição é obrigatoria",
+      });
+    }
+
+    if (newError.length > 0) {
+      setError(newError);
+      return;
+    }
+
     if (!title.trim() || !time.trim() || !description.trim()) {
       return toast.warning("Prencha todos os campos!");
     }
@@ -35,6 +64,12 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
     handleClose();
     console.log(title, time, description);
   };
+
+  const titleError = error.find((error) => error.inputName === "title");
+  const timeError = error.find((error) => error.inputName === "time");
+  const descriptionError = error.find(
+    (error) => error.inputName === "description",
+  );
 
   return createPortal(
     <CSSTransition
@@ -62,6 +97,11 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
               value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
+            {titleError && (
+              <p className="text-left text-sm text-red-400">
+                {titleError.message}
+              </p>
+            )}
 
             <div className="flex flex-col gap-1 text-start">
               <IntupLabel htmlfor="time" value={time}>
@@ -77,6 +117,11 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
                 <option value="afternoon">Tarde</option>
                 <option value="evening">Noite</option>
               </select>
+              {timeError && (
+                <p className="text-left text-sm text-red-400">
+                  {timeError.message}
+                </p>
+              )}
               <Input
                 id="description"
                 label="Descrição"
@@ -85,6 +130,11 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
                 onChange={(event) => setDescription(event.target.value)}
               />
             </div>
+            {descriptionError && (
+              <p className="text-left text-sm text-red-400">
+                {descriptionError.message}
+              </p>
+            )}
 
             <div className="flex gap-3">
               <Button size="" variant="" onClick={handleClose}>
