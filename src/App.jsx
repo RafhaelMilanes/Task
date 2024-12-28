@@ -5,13 +5,8 @@ import Tasks from "./components/Tasks";
 function App() {
   return (
     <div className="flex gap-9">
-      <Toaster
-        toastOptions={{
-          style: {
-            color: "",
-          },
-        }}
-      />
+      <Sidebar />
+      <Tasks />
       <Toaster
         richColors
         toastOptions={{
@@ -20,9 +15,6 @@ function App() {
           },
         }}
       />
-      ;
-      <Sidebar />
-      <Tasks />
     </div>
   );
 }
