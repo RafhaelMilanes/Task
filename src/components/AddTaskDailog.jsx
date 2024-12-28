@@ -2,17 +2,39 @@ import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import Input from "./Input";
 import Button from "./Button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./AddTaskDailog.css";
 import IntupLabel from "./InputLabel";
 import { v4 } from "uuid";
+import { toast } from "sonner";
 
 const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
   const [title, setTitle] = useState();
-  const [time, setTime] = useState();
+  const [time, setTime] = useState("morning");
   const [description, setDescription] = useState();
 
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle(""), setTime("morning"), setDescription("");
+    }
+  }, [isOpen]);
+
   const nodeRef = useRef();
+
+  const handleSaveClick = () => {
+    if (!title.trim() || !time.trim() || !description.trim()) {
+      return toast.warning("Prencha todos os campos!");
+    }
+    handleAddTask({
+      id: v4(),
+      title: title,
+      time: time,
+      description: description,
+      status: "not_started",
+    });
+    handleClose();
+    console.log(title, time, description);
+  };
 
   return createPortal(
     <CSSTransition
@@ -52,7 +74,7 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
                 onChange={(event) => setTime(event.target.value)}
               >
                 <option value="morning">Manhã</option>
-                <option value="afternon">Tarde</option>
+                <option value="afternoon">Tarde</option>
                 <option value="evening">Noite</option>
               </select>
               <Input
@@ -72,14 +94,7 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
                 size="lg"
                 variant="primary"
                 onClick={() => {
-                  handleAddTask({
-                    id: v4(),
-                    title: title,
-                    time: time,
-                    description: description,
-                    status: "not_started",
-                  });
-                  handleClose();
+                  handleSaveClick();
                 }}
               >
                 Salvar
