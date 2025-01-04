@@ -33,14 +33,7 @@ const Tasks = () => {
   const afternoonTasks = tasks.filter((task) => task.time === "afternoon");
   const eveningTasks = tasks.filter((task) => task.time === "evening");
 
-  const handleDeleteClick = async (taskId) => {
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      return toast.error("Erro ao deletar");
-    }
+  const onDeleteTaskSucess = async (taskId) => {
     const newTasks = tasks.filter((task) => task.id !== taskId);
     setTasks(newTasks);
     toast.error("Tarefa removida com sucesso!");
@@ -71,14 +64,28 @@ const Tasks = () => {
     setTasks(newTasks);
   };
 
-  const handleAddTask = async (Newtask) => {
-    // chamar a API para adicionar
-    const response = await fetch("http://localhost:3000/tasks", {
-      method: "POST",
-      body: JSON.stringify(Newtask),
-    });
-    setTasks([...Newtask, Newtask]);
-    toast.success("Tarefa adicionada com sucesso!");
+  const handleAddTask = async (newTask) => {
+    try {
+      // Adicionar a tarefa na API
+      const response = await fetch("http://localhost:3000/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newTask),
+      });
+
+      if (!response.ok) throw new Error("Erro ao adicionar a tarefa.");
+
+      toast.success("Tarefa adicionada com sucesso!");
+
+      // Buscar novamente as tarefas da API
+      const updatedTasksResponse = await fetch("http://localhost:3000/tasks", {
+        method: "GET",
+      });
+      const updatedTasks = await updatedTasksResponse.json();
+      setTasks(updatedTasks); // Atualiza o estado com as tarefas mais recentes
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -115,7 +122,7 @@ const Tasks = () => {
                 title={item.title}
                 status={item.status}
                 handleCheckboxClick={handleCheckboxClick}
-                handleDeleteClick={handleDeleteClick}
+                onDeleteSucess={onDeleteTaskSucess}
               />
             ))}
           </div>
@@ -131,7 +138,7 @@ const Tasks = () => {
                 title={item.title}
                 status={item.status}
                 handleCheckboxClick={handleCheckboxClick}
-                handleDeleteClick={handleDeleteClick}
+                onDeleteSucess={onDeleteTaskSucess}
               />
             ))}
           </div>
@@ -147,7 +154,7 @@ const Tasks = () => {
                 title={item.title}
                 status={item.status}
                 handleCheckboxClick={handleCheckboxClick}
-                handleDeleteClick={handleDeleteClick}
+                onDeleteSucess={onDeleteTaskSucess}
               />
             ))}
           </div>

@@ -2,15 +2,29 @@ import CheckItem from "../assets/icons/check.svg?react";
 import LoadCircle from "../assets/icons/loader-circle.svg?react";
 import Details from "../assets/icons/details.svg?react";
 import TrashIcon from "../assets/icons/trash.svg?react";
-import Button from "./Button";
+import { useState } from "react";
+import { toast } from "sonner";
 
-const Item = ({
-  title,
-  status,
-  handleDeleteClick,
-  handleCheckboxClick,
-  id,
-}) => {
+const Item = ({ title, status, onDeleteSucess, handleCheckboxClick, id }) => {
+  const [deleteIsLoading, setDeleteIsLoading] = useState(false);
+
+  const handleDeleteClick = async () => {
+    setDeleteIsLoading(true);
+    try {
+      const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Erro ao deletar a tarefa.");
+
+      onDeleteSucess(id);
+      toast.success("Tarefa deletada com sucesso!");
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setDeleteIsLoading(false);
+    }
+  };
+
   const getStatusClasses = () => {
     if (status === "done") {
       return "bg-[#00acb428] text-[#002C2E]";
@@ -33,6 +47,7 @@ const Item = ({
         >
           <input
             type="checkbox"
+            aria-label={`Alterar status da tarefa ${title}`}
             checked={status === "done"}
             className="absolute h-full w-full cursor-pointer opacity-0"
             onChange={() => handleCheckboxClick(id)}
@@ -43,8 +58,12 @@ const Item = ({
         {title}
       </div>
       <div className="flex items-center justify-center gap-2">
-        <button variant="" onClick={() => handleDeleteClick(id)}>
-          <TrashIcon className="text-brand-text-gray hover:opacity-75" />
+        <button onClick={handleDeleteClick}>
+          {deleteIsLoading ? (
+            <LoadCircle className="animate-spin" />
+          ) : (
+            <TrashIcon className="text-brand-text-gray hover:opacity-75" />
+          )}
         </button>
         <a href="#" className="transition-opacity hover:opacity-75">
           <Details className="text-brand-text-gray" />
