@@ -29,9 +29,9 @@ const Tasks = () => {
     fetchTasks();
   }, []);
 
-  const morningTasks = tasks.filter((task) => task.time === "morning");
-  const afternoonTasks = tasks.filter((task) => task.time === "afternoon");
-  const eveningTasks = tasks.filter((task) => task.time === "evening");
+  const morningTasks = tasks.filter((task) => task.time === "Manhã");
+  const afternoonTasks = tasks.filter((task) => task.time === "Tarde");
+  const eveningTasks = tasks.filter((task) => task.time === "Noite");
 
   const onDeleteTaskSucess = async (taskId) => {
     const newTasks = tasks.filter((task) => task.id !== taskId);

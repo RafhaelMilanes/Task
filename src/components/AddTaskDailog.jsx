@@ -10,13 +10,13 @@ import { toast } from "sonner";
 
 const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
   const [title, setTitle] = useState();
-  const [time, setTime] = useState("morning");
+  const [time, setTime] = useState("Manhã");
   const [description, setDescription] = useState();
   const [error, setError] = useState([]);
 
   useEffect(() => {
     if (!isOpen) {
-      setTitle(""), setTime("morning"), setDescription("");
+      setTitle(""), setTime("Manhã"), setDescription("");
     }
   }, [isOpen]);
 
@@ -83,7 +83,7 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
         className="fixed bottom-0 left-0 right-0 top-0 flex h-screen w-screen items-center justify-center backdrop-blur-sm"
       >
         <div className="rounded-xl bg-white p-5 text-center shadow-sm">
-          <h2 className="text-brand-dark-blue text-xl font-semibold">
+          <h2 className="text-xl font-semibold text-brand-dark-blue">
             Nova Tarefa
           </h2>
           <p className="mb-4 mt-1 text-xs opacity-30">
@@ -111,12 +111,12 @@ const AddTaskDialogo = ({ isOpen, handleClose, handleAddTask }) => {
               <select
                 value={time}
                 id="time"
-                className="outline-primary placeholder:text-brand-text-gray mb-4 rounded-lg border border-solid border-[#ECECEC] px-4 py-3 text-sm placeholder:text-sm"
+                className="outline-primary mb-4 rounded-lg border border-solid border-[#ECECEC] px-4 py-3 text-sm placeholder:text-sm placeholder:text-brand-text-gray"
                 onChange={(event) => setTime(event.target.value)}
               >
-                <option value="morning">Manhã</option>
-                <option value="afternoon">Tarde</option>
-                <option value="evening">Noite</option>
+                <option value="Manhã">Manhã</option>
+                <option value="Tarde">Tarde</option>
+                <option value="Noite">Noite</option>
               </select>
               {timeError && (
                 <p className="text-left text-sm text-red-400">
