@@ -4,9 +4,16 @@ import Details from "../assets/icons/details.svg?react";
 import TrashIcon from "../assets/icons/trash.svg?react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useNavigate, Link } from "react-router-dom";
+import Button from "./Button";
 
 const Item = ({ title, status, onDeleteSucess, handleCheckboxClick, id }) => {
   const [deleteIsLoading, setDeleteIsLoading] = useState(false);
+  const navigation = useNavigate();
+
+  const handleDetailsClick = () => {
+    navigate(`/task/${id}`);
+  };
 
   const handleDeleteClick = async () => {
     setDeleteIsLoading(true);
@@ -65,9 +72,15 @@ const Item = ({ title, status, onDeleteSucess, handleCheckboxClick, id }) => {
             <TrashIcon className="text-brand-text-gray hover:opacity-75" />
           )}
         </button>
-        <a href="#" className="transition-opacity hover:opacity-75">
-          <Details className="text-brand-text-gray" />
-        </a>
+        <Link
+          to={`/tasks/${id}`}
+          className="transition-opacity hover:opacity-75"
+        >
+          <Details
+            className="text-brand-text-gray"
+            onClick={handleDetailsClick}
+          />
+        </Link>
       </div>
     </div>
   );
